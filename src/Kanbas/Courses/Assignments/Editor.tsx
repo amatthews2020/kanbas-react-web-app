@@ -1,169 +1,161 @@
 export default function AssignmentEditor() {
     return (
       <div id="wd-assignments-editor">
-        <label htmlFor="wd-name"><h3>Assignment Name</h3></label>
-        <input id="wd-name" value="A1 - ENV + HTML" /><br /><br />
-        <textarea id="wd-description" cols={50} rows={10}>
-          The assignment is available online Submit a link to the landing page of
-        </textarea>
-        <br />
-        <table>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td align="right" valign="top">
-                    <label htmlFor="wd-points">Points</label>
-                </td>
-                <td>
-                    <input id="wd-points" value={100} />
-                </td>
-            </tr>
-            {/* Complete on your own */}
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td align="right" valign="top">
-                    <label htmlFor="wd-group">Assignment Group</label>
-                </td>
-                <td>
-                    <select name="wd-group" id="wd-group">
-                    <option>ASSIGNMENTS</option>
+
+            <div className="mb-3 row">
+                <label htmlFor="assignment1"
+                    className="col-sm-5 col-form-label">
+                    Assignment Name </label>
+                <div className="col-sm-8">
+                    <input type="text" className="form-control"
+                        id="assignment1" value="A1" />
+                </div> 
+            </div>
+            <div className="mb-3 row">
+                <div className="col-sm-8">
+                    <textarea className="form-control"
+                        id="textarea2" rows={3} cols={50}>
+                        The assignment is available online.
+                        Submit a link to your application running on Netifly
+                    </textarea>
+                </div>
+            </div>
+            <div className="mb-3 row py-2">
+                <label htmlFor="points"
+                    className="col-sm-1 col-form-label">
+                    Points </label>
+                <div className="col-sm-7">
+                    <input type="text" className="form-control"
+                        id="points" value="100" />
+                </div> 
+            </div>
+            <div className="row py-2">
+                <label htmlFor="wd-assignment-groups"
+                    className="col-sm-2 col-form-label">
+                    Assignment Groups </label>
+                <div className="col-sm-6">
+                    <select id="wd-assignment-groups" className="form-select col-sm-5"> 
+                        <option selected> ASSIGNMENTS</option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td align="right" valign="top">
-                    <label htmlFor="wd-display-grade-as">Display Grade as</label>
-                </td>
-                <td>
-                    <select name="wd-display-grade-as" id="wd-display-grade-as">
-                    <option>PERCENTAGE</option>
+                </div>
+            </div>
+            <div className="my-3 row py-2">
+                <label htmlFor="wd-grades"
+                    className="col-sm-2 col-form-label">
+                    Display Grade as </label>
+                <div className="col-sm-6">
+                    <select id="wd-grades" className="form-select col-sm-5"> 
+                        <option selected> Percentage</option>
+                        <option>Raw Score</option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td align="right" valign="top">
-                    <label htmlFor="wd-submission-type">Submission Type</label>
-                </td>
-                <td>
-                    <select name="wd-submission-type" id="wd-submission-type">
-                    <option>Online</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td>
-                {/* Empty cell for spacing */}
-                </td>
-                <td>
-                    <label>Online Entry Options</label><br/>
+                </div>
+            </div>
+            <div>
+                <div className="row">
+                <label htmlFor="wd-sub-type"
+                    className="col-sm-2 col-form-label">
+                    Submission Type </label>
 
-                    <input type="checkbox" name="check-text-entry" id="wd-text-entry"/>
-                    <label htmlFor="wd-text-entry">Text-Entry</label><br/>
+                <div className="col-sm-6 border border-secondary rounded">
+                    <div className="col-sm-12 py-2">
+                        <select id="wd-sub" className="form-select col-sm-5"> 
+                            <option selected> Online</option>
+                        </select>
+                    </div>
+                    <label className="row col-form-label px-2">
+                        Online Submission Type
+                    </label>
+                    <div className="form-check my-1">
+                            <input className="form-check-input" type="checkbox" 
+                                    id="text-entry" />
+                            <label className="form-check-label" htmlFor="text-entry">
+                                Text Entry </label>     
+                    </div>
+                    <div className="form-check my-1">
+                            <input className="form-check-input" type="checkbox" 
+                                    id="website-url" />
+                            <label className="form-check-label" htmlFor="website-url">
+                                Website URL </label>     
+                    </div>
+                    <div className="form-check my-1">
+                            <input className="form-check-input" type="checkbox" 
+                                    id="media-recording" />
+                            <label className="form-check-label" htmlFor="media-recording">
+                                Media Recording </label>     
+                    </div>
+                    <div className="form-check my-1">
+                            <input className="form-check-input" type="checkbox" 
+                                    id="student-annotation" />
+                            <label className="form-check-label" htmlFor="student-annotation">
+                                Student Annotation </label>     
+                    </div>
+                    <div className="form-check my-1">
+                            <input className="form-check-input" type="checkbox" 
+                                    id="file-uploads" />
+                            <label className="form-check-label" htmlFor="file-uploads">
+                                File Uploads </label>     
+                    </div>
+                     
+                    </div> 
+                </div>
+            </div>
 
-                    <input type="checkbox" name="check-website-url" id="wd-website-url"/>
-                    <label htmlFor="wd-website-url">Website URL</label><br/>
+            <div>
+                <div className="row my-3">
+                    <label htmlFor="wd-assign"
+                        className="col-sm-2 col-form-label">
+                        Assign </label>
 
-                    <input type="checkbox" name="check-media-recordings" id="wd-media-recordings"/>
-                    <label htmlFor="wd-media-recordings">Media Recording</label><br/>
+                    <div className="border border-secondary rounded col-sm-6">
+                        <div className="row py-2 px-2">
+                            <label className="col-form-label" htmlFor="assign-to">
+                            Assign To
+                            </label>
+                            <input type="text" className="form-control"
+                            id="assign-to" placeholder="Everybody" />
+                        </div>
 
-                    <input type="checkbox" name="check-student-annotation" id="wd-student-annotation"/>
-                    <label htmlFor="wd-student-annotation">Student Annotation</label><br/>
+                        <div className="row px-2">
+                            <label className="row col-form-lable px-4" htmlFor="due-date">
+                                Due
+                            </label>
+                            <input type="date" className="form-control"
+                                id="due-date" value="2024-05-13" />
+                        </div>
 
-                    <input type="checkbox" name="check-file-upload" id="wd-file-upload"/>
-                    <label htmlFor="wd-file-upload">File Uploads</label><br/>
-                </td>
-            </tr>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td>
-                {/* Empty cell for spacing */}
-                </td>
-                <td align="left" valign="top">
-                    <label htmlFor="wd-assign-to">Assign To</label><br/>
-                    <input id="wd-assign-to" value={"Everyone"} />
-                </td>
-            </tr>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td>
-                {/* Empty cell for spacing */}
-                </td>
-                <td>
-                    <label htmlFor="wd-due-date">Due</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                {/* Empty cell for spacing */}
-                </td>
-                <td align="left" valign="top">
-                    <input type="date"
-                        id="wd-due-date"
-                        value="2024-05-13"/><br/>
-                </td>
-            </tr>
-            <tr>
-                <br />
-            </tr>
-            <tr>
-                <td>
-                    {/* Empty cell for spacing */}
-                </td>
-                <td>
-                    <label htmlFor="wd-available-from">Available From</label>
-                </td>
-                <td align="left">
-                    <label htmlFor="wd-available-until">Until</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                        <div className="row py-2">
+                            <div className="col-sm-6">
+                                <label className="row col-form-lable px-4" htmlFor="available-from">
+                                    Available From
+                                </label>
+                                <input type="date" className="form-control"
+                                id="available-from" value="2024-05-06" />
+                            </div>
+                            <div className="col-sm-6">
+                                <label className="row col-form-lable px-4" htmlFor="available-to">
+                                    To
+                                </label>
+                                <input type="date" className="form-control"
+                                id="available-to" value="2024-05-13" />
+                            </div>
+                            <div className="col-sm-6"></div>
+                        </div>
+                    </div>
 
-                </td>
-                <td>
-                    <input type="date"
-                        id="wd-available-from"
-                        value="2024-05-06"/><br/>
-                </td>
-                <td align="left">
-                    <input type="date"
-                        id="wd-available-until"
-                        value="2024-05-13"/><br/>
-                </td>
-            </tr>
-            <tr>
-                <td colSpan={3}>
-                    <hr />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {/* Empty cell for spacing */}
-                </td>
-                <td>
-                </td>
-                <td>
-                    <button>Save As</button>
-                    <button>Cancel</button>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <br /><br /><br />
+            <div className="row">
+                <div className="col-8">
+                <hr />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-8">
+                    <button className="btn border border-dark btn-danger me-1 float-end">Save</button>
+                    <button className="btn border border-dark btn-secondary me-1 float-end">Cancel</button>
+                </div>
+            </div>
     </div>
 );}
   
