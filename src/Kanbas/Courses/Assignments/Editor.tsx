@@ -144,8 +144,8 @@ export default function AssignmentEditor() {
 
                 </div>
             </div>
-            <br /><br /><br />
-            <div className="row">
+
+            <div className="row mt-5">
                 <div className="col-8">
                 <hr />
                 </div>
