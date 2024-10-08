@@ -235,6 +235,8 @@ tag to tell browsers to render the gaps.
             <h5 id="wd-checkboxes">Checkboxes</h5>
             <label>Favorite movie genre:</label><br/>
 
+            <label><input type="checkbox" name="check-genre"/>Works?</label>
+
             <input type="checkbox" name="check-genre" id="wd-chkbox-comedy"/>
             <label htmlFor="wd-chkbox-comedy">Comedy</label><br/>
 
