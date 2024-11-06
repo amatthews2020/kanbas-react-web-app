@@ -1,30 +1,71 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import * as db from "../../Database";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { addAssignment, updateAssignment } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
-    const assignments = db.assignments;
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [newAssignment, setNewAssignment] = useState({
+        "_id": new Date().getTime().toString(),
+        "title": "", 
+        "course": cid, 
+        "desc": "", 
+        "points": "", 
+        "due": "", 
+        "available": ""
+    })
+
+    const dateObjectToHtmlDateString = (date: Date) => {
+        return `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? 0 : ""}${
+          date.getMonth() + 1
+        }-${date.getDate() + 1 < 10 ? 0 : ""}${date.getDate() + 1}`;
+    };    
+
+    const saveAssignment = () => {
+        
+        dispatch(addAssignment(newAssignment));
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    };
+    const upAssignment = () => {
+
+        dispatch(updateAssignment(newAssignment));
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    };
+
+    useEffect(() => {
+        if (aid !== "New") {
+            const assignment = assignments.find((assignment: any) => assignment._id === aid);
+            if (assignment) {
+                setNewAssignment(assignment);
+            }
+        }
+    }, [aid, assignments]);
+
     return (
-        <div>
-            {assignments
-                .filter((assignment: any) => assignment._id === aid)
-                .map((assignment: any) => (
-                    <div id="wd-assignments-editor">
+    
+        <div id="wd-assignments-editor">
                     <div className="mb-3 row">
                         <label htmlFor="assignment1"
                             className="col-sm-5 col-form-label">
                             Assignment Name </label>
                         <div className="col-sm-8">
                             <input type="text" className="form-control"
-                                id="assignment1" value={assignment.title} />
+                                id="assignment1" defaultValue={newAssignment.title} 
+                                onChange={(e) => setNewAssignment({ ...newAssignment, title: e.target.value })}/>
                         </div> 
                     </div>
                     <div className="mb-3 row">
                         <div className="col-sm-8">
                             <textarea className="form-control"
-                                id="textarea2" rows={3} cols={50}>
-                                {assignment.desc}
+                                id="textarea2" rows={3} cols={50}
+                                defaultValue={newAssignment.desc}
+                                onChange={(e) => setNewAssignment({ ...newAssignment, desc: e.target.value })}>
+                                
                             </textarea>
                         </div>
                     </div>
@@ -34,7 +75,8 @@ export default function AssignmentEditor() {
                             Points </label>
                         <div className="col-sm-7">
                             <input type="text" className="form-control"
-                                id="points" value={assignment.points} />
+                                id="points" defaultValue={newAssignment.points}
+                                onChange={(e) => setNewAssignment({ ...newAssignment, points: e.target.value })} />
                         </div> 
                     </div>
                     <div className="row py-2">
@@ -128,7 +170,9 @@ export default function AssignmentEditor() {
                                         Due
                                     </label>
                                     <input type="date" className="form-control"
-                                        id="due-date" value={assignment.due} />
+                                        id="due-date" 
+                                        defaultValue={newAssignment.due}
+                                        onChange={(e) => setNewAssignment({ ...newAssignment, due: dateObjectToHtmlDateString(new Date(e.target.value)) })} />
                                 </div>
 
                                 <div className="row py-2">
@@ -137,14 +181,16 @@ export default function AssignmentEditor() {
                                             Available From
                                         </label>
                                         <input type="date" className="form-control"
-                                        id="available-from" value={assignment.available} />
+                                        id="available-from" defaultValue={newAssignment.available}
+                                        onChange={(e) => setNewAssignment({ ...newAssignment, available: dateObjectToHtmlDateString(new Date(e.target.value)) })} />
                                     </div>
                                     <div className="col-sm-6">
                                         <label className="row col-form-lable px-4" htmlFor="available-to">
                                             To
                                         </label>
                                         <input type="date" className="form-control"
-                                        id="available-to" value={assignment.due} />
+                                        id="available-to" defaultValue={newAssignment.due}
+                                        onChange={(e) => setNewAssignment({ ...newAssignment, due: dateObjectToHtmlDateString(new Date(e.target.value)) })} />
                                     </div>
                                     <div className="col-sm-6"></div>
                                 </div>
@@ -160,15 +206,13 @@ export default function AssignmentEditor() {
                     </div>
                     <div className="row">
                         <div className="col-8">
-                        <Link  id="wd-signin-btn"
-                            to={`/Kanbas/Courses/${cid}/Assignments`}
-                            className="btn border border-dark btn-danger me-1 float-end"> Save </Link>
+                        <button onClick={aid !== "New" ? upAssignment : saveAssignment} id="wd-signin-btn" className="btn border border-dark btn-danger me-1 float-end" > Save </button>
                         <Link  id="wd-signin-btn"
                             to={`/Kanbas/Courses/${cid}/Assignments`}
                             className="btn border border-dark btn-secondary me-1 float-end"> Cancel </Link>
                         </div>
                     </div>
-                    </div> 
-    ))} </div>
+                </div> 
+
 );}
   
