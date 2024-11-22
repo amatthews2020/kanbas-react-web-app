@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleEnrollment } from "./reducer";
+import { toggleEnrollment, setEnrollment } from "./reducer";
+import * as courseClient from "../Courses/client";
+import * as enrollClient from "./client";
+import * as userClient from "../Account/client";
 
 export default function Dashboard(
-  { courses, course, setCourse, addNewCourse,
+  { courses, course, setCourse, addNewCourse, setCourses,
     deleteCourse, updateCourse }: {
-    courses: any[]; course: any; setCourse: (course: any) => void;
+    courses: any[]; course: any; setCourse: (course: any) => void; setCourses: (course: any) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
     updateCourse: () => void; })
  {
@@ -14,9 +17,44 @@ export default function Dashboard(
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
+  const [allCourses, setAllCourses] = useState<any[]>([]);
   const [showAllCourses, setShowAllCourses] = useState(false);
 
-  const handleToggleEnrollment = (courseId: string) => {
+  const fetchCourses = async () => {
+    try {
+      const courses = await userClient.findMyCourses();
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchAllCourses = async () => {
+    try {
+      const courses = await courseClient.fetchAllCourses();
+      setAllCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchAllEnrollments = async () => {
+    try {
+      const enrollments = await enrollClient.fetchAllEnrollments();
+      dispatch(setEnrollment(enrollments));
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
+  const handleToggleEnrollment = async (courseId: string) => {
+    if (isEnrolled(courseId)) {
+      const response = await enrollClient.unenrollInCourse(currentUser._id, courseId);
+      
+    } else {
+      const response = await enrollClient.enrollInCourse(currentUser._id, courseId);
+    }
+    fetchCourses();
     dispatch(toggleEnrollment({ userId: currentUser._id, courseId }));
   };
 
@@ -24,16 +62,20 @@ export default function Dashboard(
     enrollments.some(
       (enrollment: any) =>
         enrollment.user === currentUser._id && enrollment.course === courseId
-    );
+  );
+  
+  useEffect(() => {
+    fetchAllCourses();
+  }, []);
+  useEffect(() => {
+    fetchAllEnrollments();
+  }, []);
 
+    // Need to figure out if I need to allow student's too enroll in courses... That was the point of this statement
+    // But I got rid of the filter part because that's what A5 told me to
     const filteredCourses = showAllCourses
-    ? courses
-    : courses.filter((course) =>
-        enrollments.some(
-          (enrollment: { user: any; course: any; }) =>
-            enrollment.user === currentUser._id && enrollment.course === course._id
-        )
-      );
+    ? allCourses
+    : courses;
 
   return (
     <div className="p-4" id="wd-dashboard">

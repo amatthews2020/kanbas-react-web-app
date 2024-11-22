@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { enrollments } from "../Database";
 const initialState = {
-  enrollments: enrollments,
+  enrollments: [],
 };
 const enrollmentsSlice = createSlice({
   name: "enrollments",
   initialState,
   reducers: {
+    setEnrollment: (state, action) => {
+      state.enrollments = action.payload;
+    },
     toggleEnrollment: (state, { payload: { userId, courseId } }) => {
         const enrollmentIndex = state.enrollments.findIndex(
-          (enrollment) => enrollment.user === userId && enrollment.course === courseId
+          (enrollment: any) => enrollment.user === userId && enrollment.course === courseId
         );
         if (enrollmentIndex >= 0) {
           // Unenroll if already enrolled
@@ -26,6 +29,6 @@ const enrollmentsSlice = createSlice({
     },
 },
 );
-export const { toggleEnrollment } =
+export const { toggleEnrollment, setEnrollment } =
 enrollmentsSlice.actions;
 export default enrollmentsSlice.reducer;

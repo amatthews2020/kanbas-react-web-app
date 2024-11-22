@@ -6,9 +6,11 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
 import AssignmentControlButtons from "./AssignmentControlButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as coursesClient from "../client";
+import * as assignmentClient from "./client"
 
 
 export default function Assignments() {
@@ -23,13 +25,22 @@ export default function Assignments() {
     const [showModal, setShowModal] = useState(false);
     const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
 
+    const fetchAssignments = async () => {
+      const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+      dispatch(setAssignments(assignments));
+    };
+    useEffect(() => {
+      fetchAssignments();
+    }, []);
+
     const confirmDeleteAssignment = (assignmentId: string) => {
       setAssignmentToDelete(assignmentId);
       setShowModal(true);
     };
 
-    const handleDeleteConfirmed = () => {
+    const handleDeleteConfirmed = async () => {
       if (assignmentToDelete) {
+        await assignmentClient.deleteAssignment(assignmentToDelete);
         dispatch(deleteAssignment(assignmentToDelete));
       }
       setShowModal(false);
@@ -63,7 +74,6 @@ export default function Assignments() {
             </div>
             <ul className="wd-lessons list-group rounded-0">
               {assignments
-                .filter((assignment: any) => assignment.course === cid)
                 .map((assignment: any) => 
                   <li className="wd-lesson list-group-item p-3 ps-1">
                     <BsGripVertical className="me-2 fs-3 float-start mt-4" />
