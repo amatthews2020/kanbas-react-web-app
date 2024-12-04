@@ -7,12 +7,23 @@ import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table"
 import { FaAlignJustify } from "react-icons/fa";
 import { courses } from "../Database";
-
+import * as courseClient from "../Courses/client";
+import { useEffect, useState } from "react";
 
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+  const [users, setUsers] = useState<any[]>([]);
+   const fetchUsers = async () => {
+     if(cid) {
+       const users = await courseClient.findUsersForCourse(cid);
+       setUsers(users);
+     }
+   };
+   useEffect(() => {
+     fetchUsers();
+  }, []);
 
     return (
       <div id="wd-courses">
@@ -34,7 +45,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
               <Route path="Zoom" element={<h2>Zoom</h2>} />
               <Route path="Assignments" element={<Assignments />} />
               <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-              <Route path="People" element={<PeopleTable />} />
+              <Route path="People" element={<PeopleTable users={users} fetchUsers={fetchUsers}/>} />
             </Routes>
             </div>
           </div>

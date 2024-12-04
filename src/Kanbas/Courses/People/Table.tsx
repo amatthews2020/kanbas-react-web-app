@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function PeopleTable({ users = [], fetchUsers }: { users?: any[], fetchUsers?: any }) {
-
+  console.log(users);
+  const filteredUsers = users.filter((user: any) => user !== null && user !== undefined);
+  
   return (
     <div id="wd-people-table">
       <PeopleDetails fetchUsers={fetchUsers}/>
@@ -13,7 +15,7 @@ export default function PeopleTable({ users = [], fetchUsers }: { users?: any[],
           <tr><th>Name</th><th>Login ID</th><th>Section</th><th>Role</th><th>Last Activity</th><th>Total Activity</th></tr>
         </thead>
         <tbody>
-        {users
+        {filteredUsers
           .map((user: any) => (
             <tr key={user._id}>
               <td className="wd-full-name text-nowrap">
